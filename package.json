@@ -12,8 +12,7 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
-    "configuration": [
-    ],
+    "configuration": [],
     "commands": [
       {
         "command": "submitty.setUserId",
@@ -41,6 +40,11 @@
           "id": "submitty-panel-view",
           "title": "Submitty",
           "icon": "$(file-code)"
+        },
+        {
+          "id": "reactWebview",
+          "title": "React Webview",
+          "icon": "$(file-code)"
         }
       ]
     },
@@ -61,6 +65,13 @@
           "contextualTitle": "Submitty",
           "icon": "$(file-code)"
         }
+      ],
+      "reactWebview": [
+        {
+          "type": "webview",
+          "id": "reactWebview",
+          "name": "React Webview"
+        }
       ]
     }
   },
@@ -71,7 +82,9 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "build:webview-ui": "cd webview-ui && npm install && npm run build",
+    "watch:webview-ui": "cd webview-ui && npm run dev"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.7",
