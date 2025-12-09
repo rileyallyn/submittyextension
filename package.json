@@ -30,42 +30,13 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "submittySidebar",
+          "id": "reactWebview",
           "title": "Submitty",
           "icon": "media/duck.png"
-        }
-      ],
-      "panel": [
-        {
-          "id": "submitty-panel-view",
-          "title": "Submitty",
-          "icon": "$(file-code)"
-        },
-        {
-          "id": "reactWebview",
-          "title": "React Webview",
-          "icon": "$(file-code)"
         }
       ]
     },
     "views": {
-      "submittySidebar": [
-        {
-          "type": "webview",
-          "id": "submittyWebview",
-          "name": "Sidebar",
-          "icon": "media/duck.png"
-        }
-      ],
-      "submitty-panel-view": [
-        {
-          "type": "webview",
-          "id": "submitty-panel",
-          "name": "Submitty",
-          "contextualTitle": "Submitty",
-          "icon": "$(file-code)"
-        }
-      ],
       "reactWebview": [
         {
           "type": "webview",
