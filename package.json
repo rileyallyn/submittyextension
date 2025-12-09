@@ -12,7 +12,19 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
-    "configuration": [],
+    "configuration": [
+      {
+        "title": "Submitty",
+        "properties": {
+          "submitty.baseUrl": {
+            "type": "string",
+            "default": "",
+            "description": "The base URL for the Submitty API (e.g., https://example.submitty.edu)",
+            "markdownDescription": "The base URL for the Submitty API (e.g., `https://example.submitty.edu`)"
+          }
+        }
+      }
+    ],
     "commands": [
       {
         "command": "submitty.setUserId",
@@ -34,9 +46,24 @@
           "title": "Submitty",
           "icon": "media/duck.png"
         }
+      ],
+      "panel": [
+        {
+          "id": "reactWebview",
+          "title": "React Webview",
+          "icon": "$(file-code)"
+        }
       ]
     },
     "views": {
+      "submittySidebar": [
+        {
+          "type": "webview",
+          "id": "submittyWebview",
+          "name": "Sidebar",
+          "icon": "media/duck.png"
+        }
+      ],
       "reactWebview": [
         {
           "type": "webview",
@@ -75,10 +102,11 @@
     "globals": "^16.5.0",
     "prettier": "^3.3.3",
     "rimraf": "^3.0.2",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.47.0"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.46.3"
   },
   "dependencies": {
-    "axios": "^1.7.8"
+    "axios": "^1.7.8",
+    "keytar": "^7.9.0"
   }
 }
