@@ -99,6 +99,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         try {
             const courses = await this.apiService.fetchCourses(token);
 
+            console.log("courses", courses);
+
+
             const unarchivedHtml = courses.data.unarchived_courses.length
                 ? courses.data.unarchived_courses.map((course) => `
                     <button class="accordion">${sanitize(course.display_name || course.title || 'Untitled Course')}</button>
@@ -109,6 +112,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     </div>
                 `).join('')
                 : '<p>No courses found.</p>';
+
 
             view.webview.postMessage({
                 command: 'displayCourses',
@@ -127,6 +131,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             const gradeDetails = await this.apiService.fetchGradeDetails(hw);
             const previousAttempts = await this.apiService.fetchPreviousAttempts(hw); // Fetch previous attempts
 
+
             view.webview.postMessage({
                 command: 'displayGrade',
                 data: {
@@ -134,6 +139,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     gradeDetails,
                     previousAttempts, // Include previous attempts
                 }
+            });
+
+            // Send message to PanelProvider
+            vscode.commands.executeCommand('extension.showGradePanel', {
+                hw,
+                gradeDetails,
+                previousAttempts, // Include previous attempts
             });
         } catch (error: any) {
             vscode.window.showErrorMessage(`Failed to fetch grade details: ${error.message}`);
