@@ -10,10 +10,10 @@ export class AuthService {
     private static instance: AuthService;
     constructor(context: vscode.ExtensionContext, apiBaseUrl: string = "") {
         this.context = context;
-        this.apiService = ApiService.getInstance(context, "");
+        this.apiService = ApiService.getInstance(context, apiBaseUrl);
     }
 
-    async initialize() {
+    async initialize(): Promise<void> {
         console.log("Initializing AuthService");
 
         // Get base URL from configuration
@@ -111,18 +111,18 @@ export class AuthService {
 
             vscode.window.showInformationMessage('Successfully logged in to Submitty');
         } catch (error: any) {
-            vscode.window.showErrorMessage(`Login failed: ${error.message}`);
+            vscode.window.showErrorMessage(`Login failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
             throw error;
         }
     }
 
     // store token
-    private async storeToken(token: string) {
+    private async storeToken(token: string): Promise<void> {
         await keytar.setPassword('submittyToken', 'submittyToken', token);
     }
 
     // get token
-    private async getToken() {
+    private async getToken(): Promise<string | null> {
         return await keytar.getPassword('submittyToken', 'submittyToken');
     }
 
@@ -135,13 +135,13 @@ export class AuthService {
         const token = await this.apiService.login(userId, password);
         this.apiService.setAuthorizationToken(token);
         // store token in system keychain
-        this.storeToken(token);
+        await this.storeToken(token);
         return token;
     }
 
     static getInstance(context: vscode.ExtensionContext, apiBaseUrl: string = ""): AuthService {
         if (!AuthService.instance) {
-            AuthService.instance = new AuthService(context);
+            AuthService.instance = new AuthService(context, apiBaseUrl);
         }
         return AuthService.instance;
     }
